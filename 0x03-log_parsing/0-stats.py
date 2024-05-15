@@ -30,7 +30,7 @@ def extract_input(input_line):
     return info
 
 
-def print_statistics(total_file_size, status_code_stats):
+def print_statistics(total_file_size, status_codes_stats):
     """
     Prints the accumulated statistics of the HTTP request log.
     """
@@ -79,7 +79,9 @@ def run():
             line_num += 1
             if line_num % 10 == 0:
                 print_statistics(total_file_size, status_code_stats)
+    except (KeyboardInterrupt, EOFError):
+        print_statistics(total_file_size, status_code_stats)
 
 
-if __name__ =='__main__':
+if __name__ == '__main__':
     run()
