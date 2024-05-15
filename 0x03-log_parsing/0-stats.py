@@ -10,10 +10,10 @@ def extract_input(input_line):
     Extracts sections of a line of an HTTP request log.
     """
     fp = (
-        r'\s*(?P<ip>/S+)\s*',
+        r'\s*(?P<ip>\S+)\s*',
         r'\s*\[(?P<date>\d+\-\d+\-\d+:\d+:\d+\.\d+)\]',
         r'\s*"(?P<request>[^"]*)"\s*',
-        r'\s*(?P<status_code>/S+)',
+        r'\s*(?P<status_code>\S+)',
         r'\s*(?P<file_size>\d+)'
     )
     info = {
@@ -41,13 +41,13 @@ def print_statistics(total_file_size, status_codes_stats):
             print('{:s}: {:d}'.format(status_code, num), flush=True)
 
 
-def update_metrics(line, total_file_size, status_code_stats):
+def update_metrics(line, total_file_size, status_codes_stats):
     """
     Updates the metrics from a given HTTP request log.
     """
     line_info = extract_input(line)
     status_code = line_info.get('status_code', '0')
-    if status_code in status_code_stats.keys():
+    if status_code in status_codes_stats.keys():
         status_codes_stats[status_code] += 1
     return total_file_size + line_info['file_size']
 
